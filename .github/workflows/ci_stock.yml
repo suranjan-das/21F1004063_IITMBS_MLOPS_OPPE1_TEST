@@ -73,10 +73,12 @@ jobs:
       # ------------------------------
       # 📥 FETCH TEST DATA FROM DVC
       # ------------------------------
-      - name: Pull test data using DVC
+      - name: Pull test data using DVC (force overwrite)
         run: |
-          dvc pull --verbose
-          ls -lh test.csv
+          echo "Pulling test data from remote..."
+          dvc pull --verbose --force
+          ls -lh test.csv || echo "⚠️ test.csv not found!"
+
 
       # ------------------------------
       # 🧪 RUN SANITY TESTS (PYTEST)
