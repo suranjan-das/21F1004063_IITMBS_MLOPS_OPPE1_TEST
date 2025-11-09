@@ -20,7 +20,7 @@ jobs:
       DATA_PATH: test.csv
       REPORT_PATH: report.md
       MODEL_NAME: StockMovementModel
-      MLFLOW_TRACKING_URI: http://34.56.119.169/:8100   # ✅ use your external MLflow server
+      MLFLOW_TRACKING_URI: http://34.56.119.169:8100   # ✅ use your external MLflow server
       ACCURACY_THRESHOLD: "0.6"
       # optional, in case you have model registry tracking creds
       GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
