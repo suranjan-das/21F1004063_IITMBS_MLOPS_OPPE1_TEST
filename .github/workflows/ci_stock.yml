@@ -20,7 +20,7 @@ jobs:
       DATA_PATH: test.csv
       REPORT_PATH: report.md
       MODEL_NAME: StockMovementModel
-      MLFLOW_TRACKING_URI: http://127.0.0.1:8100
+      MLFLOW_TRACKING_URI: http://34.56.119.169/:8100   # ✅ use your external MLflow server
       ACCURACY_THRESHOLD: "0.6"
       # optional, in case you have model registry tracking creds
       GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
@@ -59,18 +59,6 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       # ------------------------------
-      # 📦 SETUP MLflow TRACKING
-      # ------------------------------
-      - name: Start MLflow server (background)
-        run: |
-          mkdir -p data/mlruns
-          nohup mlflow server \
-            --host 127.0.0.1 \
-            --port 8100 \
-            --backend-store-uri sqlite:///data/mlflow.db \
-            --default-artifact-root ./mlruns &>/dev/null &
-
-      # ------------------------------
       # 📥 FETCH TEST DATA FROM DVC
       # ------------------------------
       - name: Pull test data using DVC (force overwrite)
@@ -78,7 +66,6 @@ jobs:
           echo "Pulling test data from remote..."
           dvc pull --verbose --force
           ls -lh test.csv || echo "⚠️ test.csv not found!"
-
 
       # ------------------------------
       # 🧪 RUN SANITY TESTS (PYTEST)
